@@ -75,8 +75,13 @@ WSGI_APPLICATION = 'django_tutorials.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.environ.get('TUTORIALS_DATABASE_NAME','django_tutorials'),
+        'USER': os.environ.get('TUTORIALS_DATABASE_USER', 'postgres'),
+        'PASSWORD': os.environ.get('TUTORIALS_DATABASE_PASSWORD', '123456'),
+        'HOST': os.environ.get('TUTORIALS_DATABASE_HOST', 'localhost'),
+        'PORT': os.environ.get('TUTORIALS_DATABASE_PORT', '5432'),
+        'CONN_MAX_AGE': 0,
     }
 }
 
