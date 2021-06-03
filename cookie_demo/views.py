@@ -18,5 +18,5 @@ class DeleteCookieView(View):
 
     def delete(self, request):
         response = HttpJsonResponse(status=204)
-        response.delete_cookie('hello')
+        response.delete_cookie('hello', domain='lizhen.cn')
         return response
