@@ -25,8 +25,7 @@ SECRET_KEY = '#*^!+w)k&8lcd-1o4s(u91@2%4qx$##yb*=((xqm*zlb44+3ew'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -38,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'middleware_demo',
+    'cookie_demo',
 ]
 
 MIDDLEWARE = [
@@ -52,9 +53,10 @@ MIDDLEWARE = [
 ]
 
 # ------------ 跨域中间件配置 begin ------------
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ORIGIN_WHITELIST = ()
+CORS_ORIGIN_WHITELIST = ()
 CORS_ALLOW_METHODS = (
     'DELETE',
     'GET',
