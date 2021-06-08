@@ -102,6 +102,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_tutorials.wsgi.application'
 
+# ------------ 数据库配置 begin ------------
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -109,7 +110,7 @@ WSGI_APPLICATION = 'django_tutorials.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.environ.get('TUTORIALS_DATABASE_NAME','django_tutorials'),
+        'NAME': os.environ.get('TUTORIALS_DATABASE_NAME', 'django_tutorials'),
         'USER': os.environ.get('TUTORIALS_DATABASE_USER', 'postgres'),
         'PASSWORD': os.environ.get('TUTORIALS_DATABASE_PASSWORD', '123456'),
         'HOST': os.environ.get('TUTORIALS_DATABASE_HOST', 'localhost'),
@@ -118,6 +119,24 @@ DATABASES = {
     }
 }
 
+# ------------ 数据库配置 end ------------
+
+# ------------ 缓存配置 begin ------------
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://{}:{}".format(
+            os.environ.get('TUTORIALS_REDIS_HOST', '127.0.0.1'),
+            os.environ.get('TUTORIALS_REDIS_PORT', '6379')
+        ),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100},
+            "PASSWORD": os.environ.get('TUTORIALS_REDIS_PASSWORD', ''),
+        }
+    }
+}
+# ------------ 缓存配置 end ------------
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -137,7 +156,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -150,7 +168,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
