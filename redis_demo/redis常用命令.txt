@@ -1,0 +1,14 @@
+#在 ubuntu 上安装 Redis
+sudo apt update 
+sudo apt full-upgrade
+sudo apt install build-essential tcl
+#安装 Redis 服务器
+sudo apt-get install redis-server
+#启动 Redis 服务器
+redis-server
+# 指定端口redis-server --port 8001
+#启动 Redis 客户端
+redis-cli
+# 指定端口 redis-cli -p 8001
+
+
