@@ -1,0 +1,21 @@
+# https://www.rabbitmq.com/access-control.html
+# Adding a User
+rabbitmqctl add_user "rabbit"
+
+#
+rabbitmqctl set_user_tags rabbit administrator
+
+#https://www.rabbitmq.com/vhosts.html
+rabbitmqctl add_vhost celery_sample
+
+#https://www.rabbitmq.com/access-control.html
+rabbitmqctl set_permissions -p 'celery_sample' 'rabbit' '.*' '.*' '.*'
+
+#
+sudo rabbitmqctl add_vhost /celery_sample
+sudo rabbitmqctl set_permissions -p /celery_sample rabbit '.*' '.*' '.*'
+sudo rabbitmqctl set_policy -p /celery_sample ha-all "^" '{"ha-mode":"all"}'
+
+
+
+
