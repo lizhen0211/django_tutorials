@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'middleware_demo',
     'cookie_demo',
+    'celery_demo',
+    'django_celery_results'
 ]
 
 MIDDLEWARE = [

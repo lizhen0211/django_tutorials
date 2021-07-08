@@ -1,0 +1,10 @@
+#For a complete listing of the command-line options available, use the help command:
+celery --help
+
+# Starting the worker
+celery -A django_tutorials worker -l INFO
+
+# 启动
+celery -A django_tutorials worker -c 5 -l info
+# 停止
+celery multi start w1 -A django_tutorials -l info
