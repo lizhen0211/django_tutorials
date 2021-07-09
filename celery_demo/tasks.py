@@ -1,16 +1,21 @@
-from celery import shared_task
+from time import sleep
+
+from .celery import app
 
 
-@shared_task
+@app.task
 def add(x, y):
+    print('===add begin===')
+    sleep(5)
+    print('===add end===')
     return x + y
 
 
-@shared_task
+@app.task
 def mul(x, y):
     return x * y
 
 
-@shared_task
+@app.task
 def xsum(numbers):
     return sum(numbers)
