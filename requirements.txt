@@ -4,3 +4,4 @@ django-cors-headers==3.2.1
 django-redis==5.0.0
 celery==5.1.2
 django-celery-results==2.2.0
+requests==2.22.0
