@@ -17,3 +17,6 @@ celery multi stop w1 -A django_tutorials -l INFO
 # You’ll probably want to use the stopwait command instead,
 # which ensures that all currently executing tasks are completed before exiting:
 celery multi stopwait w1 -A proj -l INFO
+
+# 启动flower
+celery -A django_tutorials flower  --address=127.0.0.1 --port=5673

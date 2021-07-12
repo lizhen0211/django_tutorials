@@ -4,7 +4,7 @@ from .celery import app
 
 
 @app.task
-def add(x, y):
+def taska(x, y):
     print('===add begin===')
     sleep(5)
     print('===add end===')
@@ -12,10 +12,5 @@ def add(x, y):
 
 
 @app.task
-def mul(x, y):
+def taskb(x, y):
     return x * y
-
-
-@app.task
-def xsum(numbers):
-    return sum(numbers)

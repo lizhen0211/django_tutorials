@@ -140,6 +140,18 @@ CACHES = {
 }
 # ------------ 缓存配置 end ------------
 
+# ------------ celery配置 begin ------------
+# 任务过期时间
+CELERY_TASK_RESULT_EXPIRES = 60 * 60 * 24
+CELERY_IGNORE_RESULT = False
+# 每个worker执行了多少次任务后被杀死
+CELERYD_MAX_TASKS_PER_CHILD = 50
+CELERY_TASK_SERIALIZER = 'json'
+# 设置时区
+CELERY_TIMEZONE = "Asia/Shanghai"
+CELERY_ENABLE_UTC = False
+# ------------ celery配置 end ------------
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
