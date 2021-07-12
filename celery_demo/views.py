@@ -7,12 +7,17 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views.generic.base import View
-from celery_demo.tasks import taska
+from celery_demo.tasks import taska, taskb
 
 
 class SimpleTaskView(View):
     def get(self, request):
-        result = taska.delay(4, 4)
-        ready = result.ready()
-        print(ready)
+        resulta = taska.delay(4, 4)
+        readya = resulta.ready()
+        print(readya)
+
+        resultb = taskb.delay(4, 4)
+        readyb = resultb.ready()
+        print(readyb)
+
         return HttpResponse()
