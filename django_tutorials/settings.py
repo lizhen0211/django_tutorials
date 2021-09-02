@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'middleware_demo',
     'cookie_demo',
     'celery_demo',
-    'django_celery_results'
+    'django_celery_results',
+    'db_demo'
 ]
 
 MIDDLEWARE = [

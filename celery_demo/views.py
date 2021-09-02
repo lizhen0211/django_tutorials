@@ -1,13 +1,11 @@
-import time
-
 from django.http import HttpResponse
-from django.shortcuts import render
-
-# https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html
-
 # Create your views here.
 from django.views.generic.base import View
+
 from celery_demo.tasks import taska, taskb
+
+
+# https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html
 
 
 class SimpleTaskView(View):

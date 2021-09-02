@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^', include('cookie_demo.urls')),
     url(r'^', include('redis_demo.urls')),
     url(r'^', include('celery_demo.urls')),
+    url(r'^', include('db_demo.urls')),
 ]

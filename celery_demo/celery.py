@@ -28,7 +28,7 @@ app.conf.update(
     CELERY_IGNORE_RESULT=settings.CELERY_IGNORE_RESULT,
     CELERYD_MAX_TASKS_PER_CHILD=settings.CELERYD_MAX_TASKS_PER_CHILD,
     CELERY_TASK_SERIALIZER=settings.CELERY_TASK_SERIALIZER,
-    # CELERY_DEFAULT_QUEUE='receivedata_queue',
+    # CELERY_DEFAULT_QUEUE='biz_queue_a',
 
     CELERY_QUEUES=(
         Queue('biz_queue_a', default_exchange, routing_key='biz_queue_a_key',

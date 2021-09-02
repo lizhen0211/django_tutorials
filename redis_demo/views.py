@@ -9,10 +9,14 @@ from utils.responses import HttpJsonResponse
 redis_cache = caches['default']
 # 原生redis cache
 redis_connection = get_redis_connection("default")
+# redis 介绍
+# https://segmentfault.com/a/1190000008645186
 
+#Django redis教程
+# https://django-redis-chs.readthedocs.io/zh_CN/latest/#
 
-# https://django-redis-chs.readthedocs.io/zh_CN/latest/ #Django redis教程
-# https://www.runoob.com/w3cnote/python-redis-intro.html #Python redis教程
+#Python redis教程
+# https://www.runoob.com/w3cnote/python-redis-intro.html
 class SetDjangoRedisCacheView(View):
     def post(self, request):
         print(redis_cache)
@@ -26,6 +30,7 @@ class SetDjangoRedisCacheView(View):
         # 使用 expire
         redis_cache.expire("foo_2", timeout=20)
         redis_cache.ttl("foo_2")
+
         redis_cache.set("visit:12306:totals", 34634)
         print(redis_cache.get("visit:12306:totals"))
         redis_cache.incr("visit:12306:totals")
@@ -39,6 +44,10 @@ class GetDjangoRedisCacheView(View):
         # 从key中取值
         print(redis_cache.get('foo_1'))
         print(redis_cache.get('foo_2'))
+        print(redis_cache.set('foo_3','3'))
+        print(redis_cache.set('foo_4', '4'))
+        print(redis_cache.set('foo_5', '5'))
+
         # 获取缓存ttl
         print(redis_cache.ttl('foo_2'))
         # 使用通配符搜索的例子
