@@ -9,13 +9,15 @@ from utils.responses import HttpJsonResponse
 redis_cache = caches['default']
 # 原生redis cache
 redis_connection = get_redis_connection("default")
+
+
 # redis 介绍
 # https://segmentfault.com/a/1190000008645186
 
-#Django redis教程
+# Django redis教程
 # https://django-redis-chs.readthedocs.io/zh_CN/latest/#
 
-#Python redis教程
+# Python redis教程
 # https://www.runoob.com/w3cnote/python-redis-intro.html
 class SetDjangoRedisCacheView(View):
     def post(self, request):
@@ -44,7 +46,7 @@ class GetDjangoRedisCacheView(View):
         # 从key中取值
         print(redis_cache.get('foo_1'))
         print(redis_cache.get('foo_2'))
-        print(redis_cache.set('foo_3','3'))
+        print(redis_cache.set('foo_3', '3'))
         print(redis_cache.set('foo_4', '4'))
         print(redis_cache.set('foo_5', '5'))
 
@@ -107,6 +109,41 @@ class SetCacheParamView(View):
         print(redis_connection.mget(['k1', 'k2']))
         print(redis_connection.mget("fruit", "fruit1", "fruit2", "k1", "k2"))  # 将目前redis缓存中的键对应的值批量取出来
 
+        # 10.getset(name, value) 设置新值并获取原来的值
+        print(redis_connection.getset("food", "barbecue"))  # 设置的新值是barbecue 设置前的值是beef
+
+        # 18.incr(self, name, amount=1)
+        # 自增 name 对应的值，当 name 不存在时，则创建 name＝amount，否则，则自增。
+        redis_connection.set("foo", 123)
+        print(redis_connection.mget("foo", "foo1", "foo2", "k1", "k2"))
+        redis_connection.incr("foo", amount=1)
+        print(redis_connection.mget("foo", "foo1", "foo2", "k1", "k2"))
+
+        # 19.incrbyfloat(self, name, amount=1.0)
+        # 自增 name对应的值，当name不存在时，则创建name＝amount，否则，则自增。
+        redis_connection.set("foo1", "123.0")
+        redis_connection.set("foo2", "221.0")
+        print(redis_connection.mget("foo1", "foo2"))
+        redis_connection.incrbyfloat("foo1", amount=2.0)
+        redis_connection.incrbyfloat("foo2", amount=3.0)
+        print(redis_connection.mget("foo1", "foo2"))
+
+        # 20.decr(self, name, amount=1)
+        # 自减 name 对应的值，当 name 不存在时，则创建 name＝amount，否则，则自减。
+        redis_connection.decr("foo4", amount=3)  # 递减3
+        redis_connection.decr("foo1", amount=1)  # 递减1
+        print(redis_connection.mget("foo1", "foo4"))
+
+        # 21.append(key, value)z
+        # 在redis name对应的值后面追加内容
+        print(redis_connection.mget("name"))
+        redis_connection.append("name", "haha")  # 在name对应的值junxi后面追加字符串haha
+        print(redis_connection.mget("name"))
+
+        # 清空当前数据库缓存
+        redis_connection.flushdb()
+        # 删除所有数据库中的所有key
+        # redis_connection.flushall()
         return HttpJsonResponse(status=200)
 
 
