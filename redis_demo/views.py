@@ -260,7 +260,26 @@ class SetCacheListView(View):
 
 class SetCacheSetView(View):
     def post(self, request):
+        # 6、redis基本命令 set
+
+        # 1.新增 sadd(name,values)
+        # name - 对应的集合中添加元素
         redis_connection.sadd("set1", 33, 44, 55, 66)  # 往集合中添加元素
-        print(redis_connection.scard("set1"))  # 集合的长度是4
-        print(redis_connection.smembers("set1"))  # 获取集合中所有的成员
+
+        # 2.获取元素个数 类似于len
+        print(redis_connection.scard("set1"))
+
+        # 3.获取集合中所有的成员
+        print(redis_connection.smembers("set1"))
+        # 获取集合中所有的成员--元组形式
+        # sscan(name, cursor=0, match=None, count=None)
+        print(redis_connection.sscan("set1"))
+        # 获取集合中所有的成员--迭代器的方式
+        # sscan_iter(name, match=None, count=None)
+        # 同字符串的操作，用于增量迭代分批获取元素，避免内存消耗太大
+        for i in redis_connection.sscan_iter("set1"):
+            print(i)
+
+        # 4.差集
+        # 6.交集
         return HttpJsonResponse(status=200)
