@@ -1,4 +1,6 @@
 # Create your views here.
+import json
+
 from django.core.cache import caches
 from django.views.generic.base import View
 from django_redis import get_redis_connection
@@ -245,6 +247,22 @@ class SetCacheListView(View):
         print(redis_connection.llen("list2"))  # 列表长度
         print(redis_connection.lrange("list2", 0, -1))  # 切片取出值，范围是索引号0到-1(最后一个元素)
 
+        redis_connection.flushall()
+        redis_connection.lpush("spot_11", 11)
+        redis_connection.lpush("spot_11", 111)
+        redis_connection.lpush("spot_11", 1111)
+        print(redis_connection.lrange("spot_11", 0, -1))
+        redis_connection.lpush("spot_22", 22)
+        redis_connection.lpush("spot_22", 222)
+        redis_connection.lpush("spot_22", 2222)
+        print(redis_connection.lrange("spot_22", 0, -1))
+        redis_connection.lpush("spot_33", 33)
+        redis_connection.lpush("spot_33", 333)
+        redis_connection.lpush("spot_33", 3333)
+        print(redis_connection.lrange("spot_33", 0, -1))
+
+        print(redis_connection.rpop("spot_11"))
+        print(redis_connection.lrange("spot_11", 0, -1))
         # 5.新增（固定索引号位置插入元素）
         # 6.修改（指定索引号进行修改）
         # 7.删除（指定值进行删除）
@@ -282,4 +300,24 @@ class SetCacheSetView(View):
 
         # 4.差集
         # 6.交集
+        return HttpJsonResponse(status=200)
+
+
+class GroupByKeyView(View):
+    def post(self, request):
+        # print(request.POST)
+        # print(request.body)
+        data = request.body.decode("utf-8")
+        json_data = json.loads(data)
+        print(json_data)
+        print(json_data['id'])
+        print(json_data['val'])
+
+        # bytes, string, int or float first :redis hash 值只能是bytes,string,int or float first
+        # if redis_connection.hexists("message_queue", json_data['id']):
+        #     redis_connection.hget("message_queue", json_data['id']).append(json_data['val'])
+        # else:
+        #     list = [json_data['val']]
+        #     redis_connection.hset("message_queue", json_data['id'], list)
+
         return HttpJsonResponse(status=200)
