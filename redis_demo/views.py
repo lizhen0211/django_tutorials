@@ -5,6 +5,7 @@ from django.core.cache import caches
 from django.views.generic.base import View
 from django_redis import get_redis_connection
 
+from celery_demo.tasks import forwardtask
 from utils.responses import HttpJsonResponse
 
 # django redis cache
@@ -308,10 +309,18 @@ class GroupByKeyView(View):
         # print(request.POST)
         # print(request.body)
         data = request.body.decode("utf-8")
+        print('raw data:' + data)
         json_data = json.loads(data)
-        print(json_data)
-        print(json_data['id'])
-        print(json_data['val'])
+
+        if redis_connection.llen(json_data['id']) > 0:
+            # 将数据放入队列
+            redis_connection.lpush(json_data['id'], json_data['val'])
+        else:
+            # 将数据放入队列
+            redis_connection.lpush(json_data['id'], json_data['val'])
+            # 异步转发数据，攒够30秒
+            result = forwardtask.apply_async((data,), countdown=30)
+            # result.get()  # this takes at lea
 
         # bytes, string, int or float first :redis hash 值只能是bytes,string,int or float first
         # if redis_connection.hexists("message_queue", json_data['id']):
@@ -320,4 +329,12 @@ class GroupByKeyView(View):
         #     list = [json_data['val']]
         #     redis_connection.hset("message_queue", json_data['id'], list)
 
+
+        return HttpJsonResponse(status=200)
+
+
+class ForwardView(View):
+    def post(self, request):
+        data = request.body.decode("utf-8")
+        # print('forwardview:' + data)
         return HttpJsonResponse(status=200)

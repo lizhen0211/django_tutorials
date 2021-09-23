@@ -35,11 +35,15 @@ app.conf.update(
               consumer_arguments={'x-priority': 20}),
         Queue('biz_queue_b', default_exchange, routing_key='biz_queue_b_key',
               consumer_arguments={'x-priority': 10}),
+        Queue('forward_queue', default_exchange, routing_key='forward_queue_key',
+              consumer_arguments={'x-priority': 10}),
+
     ),
 
     CELERY_ROUTES={
         'celery_demo.tasks.taska': {'queue': 'biz_queue_a', 'routing_key': 'biz_queue_a_key'},
         'celery_demo.tasks.taskb': {'queue': 'biz_queue_b', 'routing_key': 'biz_queue_b_key'},
+        'celery_demo.tasks.forwardtask': {'queue': 'forward_queue', 'routing_key': 'forward_queue_key'},
     },
 )
 

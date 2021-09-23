@@ -1,3 +1,4 @@
+import datetime
 import json
 import random
 
@@ -7,8 +8,11 @@ from django.core.management import BaseCommand
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        now = datetime.datetime.now().strftime("%H:%M:%S")
         for _ in range(0, 10):
-            data_item = {'id': random.choice(range(5)), 'val': random.choice('abcdefghijklmnopqrstuvwxyz')}
+            id_val = random.choice(range(2))
+            # random.choice('abcdefghijklmnopqrstuvwxyz')
+            data_item = {'id': id_val, 'val': '%s:%s' % (id_val, now)}
             print(data_item)
             requests.post('http://192.168.6.49:8010/redis/native_set_cache_group_by_key', data=json.dumps(data_item))
         self.stdout.write(self.style.SUCCESS('ok'))
