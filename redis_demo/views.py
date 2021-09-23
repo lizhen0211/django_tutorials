@@ -318,10 +318,9 @@ class GroupByKeyView(View):
         else:
             # 将数据放入队列
             redis_connection.lpush(json_data['id'], json_data['val'])
-            # 异步转发数据，攒够30秒
-            result = forwardtask.apply_async((data,), countdown=30)
+            # 异步转发数据，攒够60秒
+            result = forwardtask.apply_async((data,), countdown=60)
             # result.get()  # this takes at lea
-
         # bytes, string, int or float first :redis hash 值只能是bytes,string,int or float first
         # if redis_connection.hexists("message_queue", json_data['id']):
         #     redis_connection.hget("message_queue", json_data['id']).append(json_data['val'])
@@ -329,12 +328,11 @@ class GroupByKeyView(View):
         #     list = [json_data['val']]
         #     redis_connection.hset("message_queue", json_data['id'], list)
 
-
         return HttpJsonResponse(status=200)
 
 
 class ForwardView(View):
     def post(self, request):
         data = request.body.decode("utf-8")
-        # print('forwardview:' + data)
+        print('forwardview:' + data)
         return HttpJsonResponse(status=200)

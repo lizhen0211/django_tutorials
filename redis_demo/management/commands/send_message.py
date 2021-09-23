@@ -8,8 +8,8 @@ from django.core.management import BaseCommand
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        now = datetime.datetime.now().strftime("%H:%M:%S")
-        for _ in range(0, 10):
+        for _ in range(0, 50):
+            now = datetime.datetime.now().strftime("%H:%M:%S.%f")
             id_val = random.choice(range(2))
             # random.choice('abcdefghijklmnopqrstuvwxyz')
             data_item = {'id': id_val, 'val': '%s:%s' % (id_val, now)}
