@@ -6,6 +6,7 @@ from django.views.generic.base import View
 from django_redis import get_redis_connection
 
 from celery_demo.tasks import forwardtask
+from redis_demo.redis_client import get_redis_conn
 from utils.responses import HttpJsonResponse
 
 # django redis cache
@@ -301,6 +302,15 @@ class SetCacheSetView(View):
 
         # 4.差集
         # 6.交集
+        return HttpJsonResponse(status=200)
+
+
+class SentinelDemoView(View):
+    def post(self, request):
+        redis_connection = get_redis_conn()
+        redis_connection.lpush('sentinel_test', 11)
+        redis_connection.lpush('sentinel_test', 22)
+        print(redis_connection.lrange('sentinel_test', 0, -1))
         return HttpJsonResponse(status=200)
 
 

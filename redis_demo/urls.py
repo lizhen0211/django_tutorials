@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from redis_demo.views import SetDjangoRedisCacheView, GetDjangoRedisCacheView, SetCacheView, SetCacheParamView, \
-    SetCacheListView, SetCacheSetView, HashView, GroupByKeyView, ForwardView
+    SetCacheListView, SetCacheSetView, HashView, GroupByKeyView, ForwardView, SentinelDemoView
 
 urlpatterns = [
     url(r'^redis/set_cache$', SetDjangoRedisCacheView.as_view()),
@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^redis/native_hash$', HashView.as_view()),
     url(r'^redis/native_set_cache_list$', SetCacheListView.as_view()),
     url(r'^redis/native_set_cache_group_by_key$', GroupByKeyView.as_view()),
+    url(r'^redis/sentinel_demo$', SentinelDemoView.as_view()),
     url(r'^redis/native_set_cache_forward$', ForwardView.as_view()),
     url(r'^redis/native_set_cache_set$', SetCacheSetView.as_view()),
 

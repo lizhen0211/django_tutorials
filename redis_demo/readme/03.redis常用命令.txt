@@ -1,0 +1,21 @@
+-------------------------------------------------------
+#启动 Redis 服务器
+redis-server
+# 指定端口
+redis-server --port 6379
+-------------------------------------------------------
+#停止 Redis 服务器
+#如果是用apt-get或者yum install安装的redis，可以直接通过下面的命令停止/启动/重启redis
+/etc/init.d/redis-server stop
+/etc/init.d/redis-server start
+/etc/init.d/redis-server restart
+#如果是通过源码安装的redis，则可以通过redis的客户端程序redis-cli的shutdown命令来重启redis
+#1.redis关闭
+redis-cli -h 127.0.0.1 -p 6379 shutdown
+redis-cli -h 127.0.0.1 -p 6379 -a password shutdown
+#如果上述方式都没有成功停止redis，则可以使用终极武器 kill -9
+-------------------------------------------------------
+#启动 Redis 客户端
+redis-cli
+# 指定端口
+ redis-cli -p 6379
