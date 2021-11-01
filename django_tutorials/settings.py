@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django_celery_results',
     'db_demo',
     'redis_demo',
-    'cron_demo'
+    'cron_demo',
+    'apscheduler_demo'
 ]
 
 MIDDLEWARE = [
