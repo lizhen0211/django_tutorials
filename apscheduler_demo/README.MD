@@ -99,6 +99,71 @@ scheduler.start()
 scheduler.add_job(my_job, 'date', run_date='2009-11-06 16:30:05', args=['测试任务'])
 ```
 
+##3.2 interval 周期触发任务
+固定时间间隔触发。interval 间隔调度，参数如下：
+
+参数	说明
+weeks(int)	间隔几周
+days(int)	间隔几天
+hours(int)	间隔几小时
+minutes(int)	间隔几分钟
+seconds(int)	间隔多少秒
+start_date(datetime or str)	开始日期
+end_date(datetime or str)	结束日期
+timezone(datetime.tzinfo or   str)	时区
+```
+from datetime import datetime
+from apscheduler.schedulers.blocking import BlockingScheduler
+
+def job_func():
+     print("当前时间：", datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")
+
+scheduler = BlockingScheduler()
+
+# 每2小时触发
+scheduler.add_job(job_func, 'interval', hours=2)
+
+# 在 2019-04-15 17:00:00 ~ 2019-12-31 24:00:00 之间, 每隔两分钟执行一次 job_func 方法
+scheduler .add_job(job_func, 'interval', minutes=2, start_date='2019-04-15 17:00:00' , end_date='2019-12-31 24:00:00')
+
+scheduler.start()
+```
+jitter振动参数，给每次触发添加一个随机浮动秒数，一般适用于多服务器，避免同时运行造成服务拥堵。
+
+每小时（上下浮动120秒区间内）运行`job_function`
+```
+scheduler.add_job(job_func, 'interval', hours=1, jitter=120)
+```
+
+##3.3 cron 触发器
+在特定时间周期性地触发，和Linux crontab格式兼容。它是功能最强大的触发器。
+
+cron 参数：
+
+
+
+参数	说明
+year(int or str)	年，4位数字
+month(int or str)	月（范围1-12）
+day(int or str)	日（范围1-31）
+week(int or str)	周（范围1-53）
+day_of_week(int or str)	周内第几天或者星期几（范围0-6或者mon,tue,wed,thu,fri,stat,sun）
+hour(int or str)	时（0-23）
+minute(int or str)	分（0-59）
+second(int or str)	秒（0-59）
+start_date(datetime or str)	最早开始日期（含）
+end_date(datetime or str)	最晚结束日期（含）
+timezone(datetime.tzinfo or   str)	指定时区
+
+注意：month和day_of_week参数分别接受的是英语缩写jan– dec 和 mon – sun
+
+使用 scheduled_job() 装饰器添加任务：
+```
+@scheduler.scheduled_job('cron', id='my_job_id', day='last sun')
+def some_decorated_task():
+    print("I am printed at 00:00:00 on the last Sunday of every month!")
+```
+
 
 
 
