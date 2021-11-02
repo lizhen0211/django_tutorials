@@ -1,3 +1,4 @@
+import datetime
 import os
 import time
 
@@ -10,6 +11,13 @@ if __name__ == '__main__':
     # 测试任务func
     def job_func():
         os.system('python ../manage.py task_command')
+
+    def job_block_func():
+        print(" 当前时间：", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        # os.getpid()获取当前进程id
+        # os.getppid()获取父进程id
+        print(os.getpid(), os.getppid())
+        time.sleep(4 * 60)
 
 
     '''
@@ -43,11 +51,14 @@ if __name__ == '__main__':
     '''
     job_defaults = {
         'coalesce': False,
-        'max_instances': 5
+        'max_instances': 2
     }
     scheduler = BackgroundScheduler(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone=utc)
 
-    scheduler.add_job(job_func, 'interval', minutes=1)
+    # scheduler.add_job(job_func, 'interval', minutes=1)
+
+    scheduler.add_job(job_block_func, 'interval', minutes=1)
+
     # scheduler.add_job(job_func, 'interval', minutes=1, args=['config'])
 
     scheduler.start()
