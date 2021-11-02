@@ -1,6 +1,7 @@
 import datetime
 import os
 import time
+from threading import Thread
 
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from apscheduler.jobstores.memory import MemoryJobStore
@@ -9,15 +10,18 @@ from pytz import utc
 
 if __name__ == '__main__':
     # 测试任务func
-    def job_func():
+    def job_func(text):
+        print(text)
+        print('%s:%s' % (text, Thread.name))
         os.system('python ../manage.py task_command')
 
-    def job_block_func():
+
+    def job_block_func(text):
         print(" 当前时间：", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         # os.getpid()获取当前进程id
         # os.getppid()获取父进程id
-        print(os.getpid(), os.getppid())
-        time.sleep(4 * 60)
+        print('任务名：%s,进程id：%s,父进程id：%s,线程名：%s' % (text, os.getpid(), os.getppid(), Thread.name))
+        # time.sleep(4 * 60)
 
 
     '''
@@ -34,8 +38,8 @@ if __name__ == '__main__':
         'default': MemoryJobStore()
     }
     executors = {
-        'default': ThreadPoolExecutor(20),
-        'processpool': ProcessPoolExecutor(5)
+        # 'default': ThreadPoolExecutor(20),
+        'default': ProcessPoolExecutor(3)  # 最多3个进程同时执行
     }
     '''
         coalesce：当由于某种原因导致某个job积攒了好几次没有实际运行（比如说系统挂了5分钟后恢复，有一个任务是每分钟跑一次的，
@@ -53,11 +57,15 @@ if __name__ == '__main__':
         'coalesce': False,
         'max_instances': 2
     }
-    scheduler = BackgroundScheduler(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone=utc)
+    # scheduler = BackgroundScheduler(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone=utc)
+    scheduler = BackgroundScheduler(jobstores=jobstores, executors=executors, job_defaults=job_defaults,
+                                    timezone="Asia/Shanghai")
 
     # scheduler.add_job(job_func, 'interval', minutes=1)
 
-    scheduler.add_job(job_block_func, 'interval', minutes=1)
+    scheduler.add_job(job_block_func, 'interval', minutes=1, args=['任务1'])
+
+    scheduler.add_job(job_block_func, 'interval', minutes=1, args=['任务2'])
 
     # scheduler.add_job(job_func, 'interval', minutes=1, args=['config'])
 
