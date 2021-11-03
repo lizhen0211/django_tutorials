@@ -38,12 +38,17 @@ if __name__ == '__main__':
 
     scheduler.add_job(job_block_func, 'interval', minutes=1, args=['interval jitter'])
 
+    # scheduler.add_job(job_block_func, 'interval', seconds=1, args=['interval jitter'])
+
     # =======================================================================================================
 
     # 在每年 1-3、7-9 月份中的每个星期一、二中的 00:00, 01:00, 02:00 和 03:00 执行 job_func 任务
     # scheduler.add_job(job_func, 'cron', month='1-3,7-9', day='1,2', hour='0-3', args=['测试任务 cron'])
 
     # scheduler.add_job(job_func, 'cron', minute='0-59', args=['测试任务 cron'])
+
+    scheduler.add_job(job_func, 'cron', day_of_week='1-5', hour=15, minute=32, end_date='2022-12-31',
+                      args=['测试任务 cron'])
 
     # @scheduler.scheduled_job('cron', id='my_job_id', day='last sun')
     # def some_decorated_task():
